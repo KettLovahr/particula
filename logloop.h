@@ -8,6 +8,6 @@
 
 void run_loop(AppContext ctx, Simulation sim);
 
-void draw_loop(AppContext ctx, Simulation sim);
+void draw_loop(AppContext ctx, Simulation* sim);
 
-Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running);
+Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulation* sim);
