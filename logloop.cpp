@@ -54,7 +54,7 @@ Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulatio
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     int x = event.button.x;
                     int y = event.button.y;
-                    sim->matrix[x][y] = Simulation::ParticleTypes::SAND;
+                    sim->set_from_coord(x, y, Simulation::ParticleTypes::SAND);
                 }
             }
         }
