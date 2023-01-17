@@ -9,7 +9,14 @@ void run_loop(AppContext ctx, Simulation sim) {
         const Uint8* state = SDL_GetKeyboardState(NULL);
         SDL_PumpEvents();
 
-        handle_input(event, state, &running, &sim);
+        handle_input(event, state, &running, &sim, &ctx);
+
+        if (ctx.painting) {
+            int x = ctx.mouse_x;
+            int y = ctx.mouse_y;
+            sim.set_from_coord(x, y, Simulation::ParticleTypes::SAND);
+        }
+
         sim.execute_sim_step();
         draw_loop(ctx, &sim);
 
@@ -42,7 +49,7 @@ void draw_loop(AppContext ctx, Simulation* sim) {
     }
 }
 
-Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulation* sim) {
+Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulation* sim, AppContext* ctx) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 //And thus, by fucking around, I've learned the usefulness of pointers.
@@ -52,10 +59,17 @@ Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulatio
             }
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
-                    int x = event.button.x;
-                    int y = event.button.y;
-                    sim->set_from_coord(x, y, Simulation::ParticleTypes::SAND);
+                    ctx->painting = true;
                 }
+            }
+            if (event.type == SDL_MOUSEBUTTONUP) {
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    ctx->painting = false;
+                }
+            }
+            if (event.type == SDL_MOUSEMOTION) {
+                ctx->mouse_x = event.motion.x;
+                ctx->mouse_y = event.motion.y;
             }
         }
     return 0;

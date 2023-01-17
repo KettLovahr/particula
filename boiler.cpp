@@ -7,6 +7,9 @@ struct AppContext {
     SDL_Window* window;
     SDL_Surface* surf;
     SDL_Renderer* render;
+    bool painting;
+    int mouse_x;
+    int mouse_y;
 };
 
 AppContext spawn_win_surf() {
