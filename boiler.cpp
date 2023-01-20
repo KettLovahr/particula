@@ -10,6 +10,7 @@ struct AppContext {
     bool painting;
     int mouse_x;
     int mouse_y;
+    int radius = 5;
 };
 
 AppContext spawn_win_surf() {

@@ -14,7 +14,11 @@ void run_loop(AppContext ctx, Simulation sim) {
         if (ctx.painting) {
             int x = ctx.mouse_x;
             int y = ctx.mouse_y;
-            sim.set_from_coord(x, y, Simulation::ParticleTypes::SAND);
+            for (int r = -ctx.radius / 2; r < ctx.radius / 2; r++) {
+                for (int s = -ctx.radius / 2; s < ctx.radius / 2; s++) {
+                    sim.set_from_coord(x + r, y + s, Simulation::ParticleTypes::SAND);
+                }
+            }
         }
 
         sim.execute_sim_step();
