@@ -7,9 +7,9 @@ struct AppContext {
     SDL_Window* window;
     SDL_Surface* surf;
     SDL_Renderer* render;
-    bool painting;
-    int mouse_x;
-    int mouse_y;
+    bool painting = false;
+    int mouse_x = 0;
+    int mouse_y = 0;
     int radius = 5;
 };
 

@@ -16,7 +16,10 @@ void run_loop(AppContext ctx, Simulation sim) {
             int y = ctx.mouse_y;
             for (int r = -ctx.radius / 2; r < ctx.radius / 2; r++) {
                 for (int s = -ctx.radius / 2; s < ctx.radius / 2; s++) {
-                    sim.set_from_coord(x + r, y + s, Simulation::ParticleTypes::SAND);
+                    int distance_squared = r*r + s*s;
+                    if (distance_squared < ((ctx.radius/2)*(ctx.radius/2))) {
+                        sim.set_from_coord(x + r, y + s, Simulation::ParticleTypes::SAND);
+                    }                    
                 }
             }
         }
@@ -56,8 +59,6 @@ void draw_loop(AppContext ctx, Simulation* sim) {
 Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulation* sim, AppContext* ctx) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
-                //And thus, by fucking around, I've learned the usefulness of pointers.
-                //Rust would be far too pedantic about this.
                 *running = false;
                 return 255;
             }
@@ -74,6 +75,13 @@ Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulatio
             if (event.type == SDL_MOUSEMOTION) {
                 ctx->mouse_x = event.motion.x;
                 ctx->mouse_y = event.motion.y;
+            }
+            if (event.type == SDL_MOUSEWHEEL) {
+                if (event.wheel.y > 0 && ctx->radius < 64) { //Scroll up
+                    ctx->radius++;
+                } else if (event.wheel.y < 0 && ctx->radius > 1) { //Scroll down
+                    ctx->radius--;
+                }
             }
         }
     return 0;
