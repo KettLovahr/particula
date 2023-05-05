@@ -1,5 +1,6 @@
 #include "logloop.h"
 #include <SDL2/SDL_events.h>
+#include <SDL2/SDL_mouse.h>
 
 void run_loop(AppContext ctx, Simulation sim) {
     bool running = true;
@@ -18,7 +19,7 @@ void run_loop(AppContext ctx, Simulation sim) {
                 for (int s = -ctx.radius / 2; s < ctx.radius / 2; s++) {
                     int distance_squared = r*r + s*s;
                     if (distance_squared < ((ctx.radius/2)*(ctx.radius/2))) {
-                        sim.set_from_coord(x + r, y + s, Simulation::ParticleTypes::SAND);
+                        sim.set_from_coord(x + r, y + s, ctx.erasing ? Simulation::ParticleTypes::NONE : Simulation::ParticleTypes::SAND);
                     }                    
                 }
             }
@@ -66,10 +67,16 @@ Uint8 handle_input(SDL_Event event, const Uint8* state, bool* running, Simulatio
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     ctx->painting = true;
                 }
+                if (event.button.button == SDL_BUTTON_RIGHT) {
+                    ctx->erasing = true;
+                }
             }
             if (event.type == SDL_MOUSEBUTTONUP) {
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     ctx->painting = false;
+                }
+                if (event.button.button == SDL_BUTTON_RIGHT) {
+                    ctx->erasing = false;
                 }
             }
             if (event.type == SDL_MOUSEMOTION) {
