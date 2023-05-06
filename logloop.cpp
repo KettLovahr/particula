@@ -30,7 +30,7 @@ void run_loop(AppContext ctx, Simulation sim) {
 
         SDL_RenderPresent(ctx.render);
 
-        SDL_Delay(16);
+        SDL_Delay(1000.0 / 60);
 
     }
 

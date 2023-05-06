@@ -10,7 +10,8 @@
             "name": "Debug",
             "program": "${workspaceFolder}/particula",
             "args": [],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "make"
         }
     ]
 }
