@@ -1,2 +1,2 @@
 build:
-	clang -lSDL2 main.cpp -o particula
+	clang main.cpp -o particula -lSDL2
