@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
 
 Simulation::Simulation() {
   width = 640;
@@ -43,11 +44,7 @@ void Simulation::execute_sim_step() {
 }
 
 void Simulation::copy_matrix() {
-  for (int i = 0; i < width; i++) {
-    for (int j = 0; j < height; j++) {
-      matrix[i][j] = new_matrix[i][j];
-    }
-  }
+    memcpy(matrix, new_matrix, sizeof(matrix));
 }
 
 int Simulation::get_from_coord(int x, int y) {

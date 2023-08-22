@@ -1,2 +1,5 @@
+FILES = main.cpp
+LIBS = -lSDL2
+
 build:
-	clang -lSDL2 main.cpp -o particula
+	clang ${FILES} -o particula ${LIBS}
